@@ -3,27 +3,22 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'echo "Hello World"'
-                sh '''
-                    echo "Multiline shell steps works too"
-                    ls -lah
-                '''
+                bat 'set'
             }
         }
         stage('Deploy') {
             steps {
                 retry(3) {
-                    sh './flakey-deploy.sh'
+                    bat 'echo deploying'
                 }
-
                 timeout(time: 3, unit: 'MINUTES') {
-                    sh './health-check.sh'
+                    bat 'echo health check'
                 }
             }
         }
         stage('Test') {
             steps {
-                sh 'echo "Fail!"; exit 1'
+                bat 'exit 1'
             }
         }
     }
